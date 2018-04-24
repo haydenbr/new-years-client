@@ -10,20 +10,23 @@ const defaults = {
 };
 const env = {
 	dev: {
-		API_SERVER: 'localhost:3000',
+		API_URL: 'http://localhost:3000',
 		APP_URL_SCHEME: `${defaults.APP_URL_SCHEME}-dev`,
+		FUNCTIONS_URL: 'http://localhost:3100/api',
 		REDUX_DEVTOOLS: true,
 		TITLE: `${defaults.TITLE} - Dev`,
 	},
 	test: {
-		API_SERVER: 'https://test-api.example.com',
+		API_URL: 'https://test-api.example.com',
 		APP_URL_SCHEME: `${defaults.APP_URL_SCHEME}-test`,
+		FUNCTIONS_URL: 'https://test-functions.example.com/api',
 		REDUX_DEVTOOLS: true,
 		TITLE: `${defaults.TITLE} - Test`,
 	},
 	prod: {
-		API_SERVER: 'https://api.example.com',
+		API_URL: 'https://api.example.com',
 		APP_URL_SCHEME: defaults.APP_URL_SCHEME,
+		FUNCTIONS_URL: 'https://functions.example.com/api',
 		REDUX_DEVTOOLS: false,
 		TITLE: defaults.TITLE,
 	},
@@ -40,9 +43,9 @@ function getConfig() {
 	let config = Object.assign({}, env[profile]);
 
 	// Check for overrides
-	config.API_SERVER = process.env.API_SERVER || config.API_SERVER;
+	config.API_URL = config.API_URL || process.env.API_URL;
 	config.APP_ID = ionicConfig.app_id;
-	config.APP_URL_SCHEME = process.env.APP_URL_SCHEME || config.APP_URL_SCHEME;
+	config.APP_URL_SCHEME = config.APP_URL_SCHEME || process.env.APP_URL_SCHEME;
 	config.LOCAL_DEV = yn(process.env.LOCAL_DEV, { default: profile === 'dev' });
 	config.PROFILE = profile;
 	config.REDUX_DEVTOOLS = yn(process.env.REDUX_DEVTOOLS, { default: config.REDUX_DEVTOOLS });

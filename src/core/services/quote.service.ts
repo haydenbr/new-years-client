@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 
-import { QuoteModel } from '../models';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class QuoteService {
-  private quotes: string[];
+	private readonly quoteUrl = `${FUNCTIONS_URL}/quote`;
 
-  constructor() {
-    this.quotes = new QuoteModel().get();
-  }
+	constructor(private http: Http) {}
 
-  getRandomQuote(): string {
-    return this.quotes[Math.floor(Math.random() * this.quotes.length)];
-  }
+	getRandomQuote(): Observable<string> {
+		return this.http
+			.get(this.quoteUrl)
+			.map(res => res.json())
+			.map(body => body.quote);
+	}
 }
