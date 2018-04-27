@@ -1,8 +1,6 @@
 import { Action } from '@ngrx/store';
-
-import { Task } from '../resolution/models';
-
 import { actionType } from './action-type';
+import { Task } from '../resolution/models';
 
 export const actions = {
 	CREATE: actionType('[Resolution] Create'),
@@ -18,6 +16,7 @@ export const actions = {
 	GET_ALL_SUCCESS: actionType('[Resolution] Get All Success'),
 	GET_ALL_FAIL: actionType('[Resolution] Get All Fail'),
 	REORDER: actionType('[Resolution] Reorder'),
+	REORDER_DONE: actionType('[Resolution] Reorder Done'),
 	REORDER_SUCCESS: actionType('[Resolution] Reorder Success'),
 	REORDER_FAIL: actionType('[Resolution] Reorder Fail'),
 	SET_CURRENT: actionType('[Resolution] Set Current'),
@@ -104,16 +103,22 @@ export class Reorder implements Action {
 	constructor(public payload: { to: number; from: number }) {}
 }
 
+export class ReorderDone implements Action {
+	type = actions.REORDER_DONE;
+
+	constructor(public payload: { reorderedResolutionIds: string[]; index: { to: number; from: number } }) {}
+}
+
 export class ReorderSuccess implements Action {
 	type = actions.REORDER_SUCCESS;
 
-	constructor(public payload: { to: number; from: number }) {}
+	constructor(public payload?: any) {}
 }
 
 export class ReorderFail implements Action {
 	type = actions.REORDER_FAIL;
 
-	constructor(public payload: { to: number; from: number }) {}
+	constructor(public payload: { reorderedResolutionIds: string[]; index: { to: number; from: number } }) {}
 }
 
 export class GetAll implements Action {

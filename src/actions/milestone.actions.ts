@@ -23,7 +23,7 @@ export const actions = {
 export class AddMilestone implements Action {
 	type = actions.ADD_MILESTONE;
 
-	constructor(public payload: { resolutionId: string; milestone: Task }) {}
+	constructor(public payload: { resolution: Task; milestone: Task }) {}
 }
 
 export class AddMilestoneSuccess implements Action {
@@ -41,7 +41,7 @@ export class AddMilestoneFail implements Action {
 export class RemoveMilestone implements Action {
 	type = actions.REMOVE_MILESTONE;
 
-	constructor(public payload: { resolutionId: string; milestone: Task }) {}
+	constructor(public payload: { resolution: Task; milestone: Task }) {}
 }
 
 export class RemoveMilestoneSuccess implements Action {
@@ -60,7 +60,7 @@ export class RemoveMilestoneFail implements Action {
 export class EditMilestone implements Action {
 	type = actions.EDIT_MILESTONE;
 
-	constructor(public payload: { resolutionId: string; milestone: Task }) {}
+	constructor(public payload: { resolution: Task; milestone: Task }) {}
 }
 
 export class EditMilestoneSuccess implements Action {
@@ -79,7 +79,7 @@ export class EditMilestoneFail implements Action {
 export class ReorderMilestone implements Action {
 	type = actions.REORDER_MILESTONE;
 
-	constructor(public payload: { resolutionId: string; index: { from: number; to: number } }) {}
+	constructor(public payload: { resolution: Task; index: { from: number; to: number } }) {}
 }
 
 export class ReorderMilestoneSuccess implements Action {

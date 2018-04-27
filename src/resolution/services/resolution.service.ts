@@ -40,54 +40,35 @@ export class ResolutionService {
 		return this.http.put(`${this.apiUrl}/${updatedTask.id}`, updatedTask).map(res => res.json());
 	}
 
-	// TODO: more work need for this one. need to add order field to each doc and sort by this field
-	reorderResolutions(index: { from: number; to: number }): Observable<Task[]> {
-		// return this.getResolutions()
-		// 	.map((resolutions) => reorder(resolutions, index))
-		// 	.switchMap(resolutions => this.setResolutions(resolutions))
+	reorderResolutions(reorderedResolutionIds: string[], index: { from: number; to: number }): Observable<any> {
+		let reorderPayload = reorderedResolutionIds
+			.slice(index.from, index.to + 1)
+			.map((id, index) => Object.assign({ id, order: index + 1 }));
+
+		return this.http.post(`${this.apiUrl}/reorder`, { reorder: reorderPayload }).map(res => res.json());
 	}
 
-	// TODO: update adding mileston. it's reallt just a special case of updating resolution
-	addMilestone(id: string, milestone: Task): Observable<Task> {
-		return this.getResolution(id)
-			.map(resolution => {
-				resolution.milestones.push(milestone);
-				return resolution;
-			})
-			.switchMap(resolution => this.updateResolution(resolution));
+	addMilestone(resolution: Task, milestone: Task): Observable<Task> {
+		resolution.milestones.push(milestone);
+
+		return this.updateResolution(resolution);
 	}
 
-	removeMilestone(id: string, removedMilestone: Task): Observable<any> {
-		return this.getResolution(id)
-			.map(resolution => {
-				resolution.milestones = resolution.milestones.filter(m => m.id !== removedMilestone.id);
-				return resolution;
-			})
-			.switchMap(resolution => this.updateResolution(resolution));
+	removeMilestone(resolution: Task, removedMilestone: Task): Observable<Task> {
+		resolution.milestones = resolution.milestones.filter(m => m.id !== removedMilestone.id);
+
+		return this.updateResolution(resolution);
 	}
 
-	updateMilestone(id: string, updatedMilestone: Task): Observable<any> {
-		return this.getResolution(id)
-			.map(resolution => {
-				resolution.milestones = resolution.milestones.map(m => {
-					if (m.id === updatedMilestone.id) {
-						return updatedMilestone;
-					}
-					return m;
-				});
+	updateMilestone(resolution: Task, updatedMilestone: Task): Observable<Task> {
+		resolution.milestones = resolution.milestones.map(m => (m.id === updatedMilestone.id ? updatedMilestone : m));
 
-				return resolution;
-			})
-			.switchMap(resolution => this.updateResolution(resolution));
+		return this.updateResolution(resolution);
 	}
 
-	reorderMilestone(id: string, index: { from: number; to: number }): Observable<any> {
-		return this.getResolution(id)
-			.map(resolution => {
-				resolution.milestones = reorder(resolution.milestones, index);
+	reorderMilestone(resolution: Task, index: { from: number; to: number }): Observable<any> {
+		resolution.milestones = reorder(resolution.milestones, index);
 
-				return resolution;
-			})
-			.switchMap(resolution => this.updateResolution(resolution));
+		return this.updateResolution(resolution);
 	}
 }

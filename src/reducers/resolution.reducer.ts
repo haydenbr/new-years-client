@@ -82,8 +82,13 @@ reducerCases[fromActions.actions.UPDATE_SUCCESS] = function(state: State, action
 	});
 };
 
-reducerCases[fromActions.actions.REORDER_SUCCESS] = function(state: State, action: fromActions.ReorderSuccess) {
-	return Object.assign({}, state, { resolutionIds: reorder(state.resolutionIds, action.payload) });
+reducerCases[fromActions.actions.REORDER_DONE] = function(state: State, action: fromActions.ReorderDone) {
+	return Object.assign({}, state, { resolutionIds: action.payload.reorderedResolutionIds });
+};
+
+// TODO: reverse reorder on fail
+reducerCases[fromActions.actions.REORDER_FAIL] = function(state: State, action: fromActions.ReorderFail) {
+	return state;
 };
 
 reducerCases[fromActions.actions.SET_CURRENT] = function(state: State, action: fromActions.SetCurrent) {

@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 
 import * as fromActions from '../actions/resolution.actions';
 import { ResolutionService } from '../resolution/services';
+import { State } from '../reducers';
+import { reorder } from '../util';
+import { fromEvent } from 'rxjs/observable/fromEvent';
 
 @Injectable()
 export class ResolutionEffects {
-	constructor(private actions: Actions, private resolutionService: ResolutionService) {}
+	constructor(private actions: Actions, private resolutionService: ResolutionService, private store: Store<State>) {}
 
 	// startWith operator causes run on app start
 	@Effect()
@@ -32,9 +35,7 @@ export class ResolutionEffects {
 			return this.resolutionService
 				.addResolution(resolution)
 				.map(() => new fromActions.CreateSuccess(resolution))
-				.catch(error => {
-					return of(new fromActions.CreateFail(error));
-				});
+				.catch(error => of(new fromActions.CreateFail(error)));
 		});
 
 	@Effect()
@@ -51,12 +52,29 @@ export class ResolutionEffects {
 	@Effect()
 	reorderResolution: Observable<Action> = this.actions
 		.ofType(fromActions.actions.REORDER)
-		.map((action: fromActions.Reorder) => action.payload)
-		.switchMap((index: { from: number; to: number }) => {
+		.withLatestFrom(this.store)
+		.map(([action, state]) =>
+			Object.assign({}, { resolutionIds: state.resolutions.resolutionIds, index: action['payload'] })
+		)
+		.map(payload => {
+			let index = payload.index;
+			let reorderedResolutionIds = reorder(payload.resolutionIds, index);
+
+			return new fromActions.ReorderDone({ reorderedResolutionIds, index });
+		});
+
+	@Effect()
+	reorderDone: Observable<Action> = this.actions
+		.ofType(fromActions.actions.REORDER_DONE)
+		.map((action: fromActions.ReorderDone) => action.payload)
+		.switchMap(payload => {
+			let reorderedResolutionIds = payload.reorderedResolutionIds;
+			let index = payload.index;
+
 			return this.resolutionService
-				.reorderResolutions(index)
-				.map(() => new fromActions.ReorderSuccess(index))
-				.catch(error => of(new fromActions.ReorderFail(error)));
+				.reorderResolutions(reorderedResolutionIds, index)
+				.map(() => new fromActions.ReorderSuccess())
+				.catch(() => of(new fromActions.ReorderFail({ reorderedResolutionIds, index })));
 		});
 
 	@Effect()

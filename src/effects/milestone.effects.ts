@@ -18,10 +18,13 @@ export class MilestoneEffects {
 	addMilestone: Observable<Action> = this.actions
 		.ofType(fromActions.actions.ADD_MILESTONE)
 		.map((action: fromActions.AddMilestone) => action.payload)
-		.switchMap((payload: { resolutionId: string; milestone: Task }) => {
+		.switchMap(payload => {
+			let resolution = payload.resolution;
+			let milestone = payload.milestone;
+
 			return this.resolutionService
-				.addMilestone(payload.resolutionId, payload.milestone)
-				.map(() => new fromActions.AddMilestoneSuccess(payload))
+				.addMilestone(resolution, milestone)
+				.map(() => new fromActions.AddMilestoneSuccess({ resolutionId: resolution.id, milestone }))
 				.catch(error => of(new fromActions.AddMilestoneFail(error)));
 		});
 
@@ -29,10 +32,13 @@ export class MilestoneEffects {
 	removeMilestone: Observable<Action> = this.actions
 		.ofType(fromActions.actions.REMOVE_MILESTONE)
 		.map((action: fromActions.RemoveMilestone) => action.payload)
-		.switchMap((payload: { resolutionId: string; milestone: Task }) => {
+		.switchMap(payload => {
+			let resolution = payload.resolution;
+			let milestone = payload.milestone;
+
 			return this.resolutionService
-				.removeMilestone(payload.resolutionId, payload.milestone)
-				.map(() => new fromActions.RemoveMilestoneSuccess(payload))
+				.removeMilestone(resolution, milestone)
+				.map(() => new fromActions.RemoveMilestoneSuccess({ resolutionId: resolution.id, milestone }))
 				.catch(error => of(new fromActions.RemoveMilestoneFail(error)));
 		});
 
@@ -40,10 +46,13 @@ export class MilestoneEffects {
 	reorderMilestone: Observable<Action> = this.actions
 		.ofType(fromActions.actions.REORDER_MILESTONE)
 		.map((action: fromActions.ReorderMilestone) => action.payload)
-		.switchMap((payload: { resolutionId: string; index: { from: number; to: number } }) => {
+		.switchMap(payload => {
+			let resolution = payload.resolution;
+			let index = payload.index;
+
 			return this.resolutionService
-				.reorderMilestone(payload.resolutionId, payload.index)
-				.map(() => new fromActions.ReorderMilestoneSuccess(payload))
+				.reorderMilestone(resolution, index)
+				.map(() => new fromActions.ReorderMilestoneSuccess({ resolutionId: resolution.id, index }))
 				.catch(error => of(new fromActions.ReorderMilestoneFail(error)));
 		});
 
@@ -51,10 +60,13 @@ export class MilestoneEffects {
 	editMilestone: Observable<Action> = this.actions
 		.ofType(fromActions.actions.EDIT_MILESTONE)
 		.map((action: fromActions.EditMilestone) => action.payload)
-		.switchMap((payload: { resolutionId: string; milestone: Task }) => {
+		.switchMap(payload => {
+			let resolution = payload.resolution;
+			let milestone = payload.milestone;
+
 			return this.resolutionService
-				.updateMilestone(payload.resolutionId, payload.milestone)
-				.map(() => new fromActions.EditMilestoneSuccess(payload))
+				.updateMilestone(payload.resolution, payload.milestone)
+				.map(() => new fromActions.EditMilestoneSuccess({ resolutionId: resolution.id, milestone }))
 				.catch(error => of(new fromActions.EditMilestoneFail(error)));
 		});
 }
