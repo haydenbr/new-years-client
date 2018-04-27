@@ -56,7 +56,6 @@
 		"lodash": "^4.17.2",
 		"reselect": "^2.5.4",
 		"rxjs": "5.5.2",
-		"uuid": "^3.0.1",
 		"zone.js": "^0.8.18"
 	},
 	"devDependencies": {
