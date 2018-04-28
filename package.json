@@ -7,7 +7,8 @@
 	"repository": "https://github.com/haydenbr/new-years-client",
 	"dockerHubRepository": "haydenbr/new-years-client",
 	"scripts": {
-		"start": "docker-compose -f ../docker-compose.dev.yml -f ./docker-compose.dev.yml up",
+		"start": "yarn up",
+		"up": "docker-compose -f ../docker-compose.dev.yml -f ./docker-compose.dev.yml up",
 		"down": "docker-compose -f ../docker-compose.dev.yml -f ./docker-compose.dev.yml down",
 		"build:browser": "ionic-app-scripts build --aot --minifyjs --minifycss  --optimizejs --prod --enableLint false",
 		"bump": "./scripts/bump.js",
