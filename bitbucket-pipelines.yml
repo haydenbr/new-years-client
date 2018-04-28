@@ -1,4 +1,4 @@
-image: 'haydenbr/new-years-client:2.2.8-dev'
+image: 'haydenbr/new-years-client:3.0.0-dev'
 clone:
   depth: 1
 pipelines:

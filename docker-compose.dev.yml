@@ -2,14 +2,14 @@ version: '3.6'
 services:
   new-years-client:
     container_name: new-years-client
-    image: 'haydenbr/new-years-client:2.2.8-dev'
+    image: 'haydenbr/new-years-client:3.0.0-dev'
     ports:
       - '8100:8100'
       - '35729:35729'
       - '53703:53703'
     environment:
-      - API_URL=http://new-years-api:3000
-      - FUNCTIONS_URL=http://new-years-functions:3100/api
+      - 'API_URL=http://new-years-api:3000'
+      - 'FUNCTIONS_URL=http://new-years-functions:3100/api'
       - APP_ID
       - APP_URL_SCHEME
       - LOCAL_DEV
@@ -30,8 +30,7 @@ services:
       - './new-years-client/tslint.json:/opt/app/tslint.json'
       - './new-years-client/webpack:/opt/app/webpack'
       - './new-years-client/scripts:/opt/app/scripts'
-
 networks:
-  new-years-client:
-  new-years-api:
-  new-years-functions:
+  new-years-client: null
+  new-years-api: null
+  new-years-functions: null
