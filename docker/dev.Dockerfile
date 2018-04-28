@@ -1,6 +1,6 @@
 FROM node:8.9.4-alpine
-LABEL maintainer="Unboxed Technology LLC, https://unboxedtechnology.com"
-LABEL author="Hayden Braxton, haydenbraxton@unboxedtechnology.com"
+LABEL maintainer="Unboxed Technology LLC, https://haydenbr.com"
+LABEL author="Hayden Braxton, haydenbraxton@haydenbr.com"
 
 # ENV or ARG?
 # 

@@ -6,7 +6,7 @@ const dockerUtil = require('./docker-utilities');
 const gitUtil = require('./git-utilities');
 const syncConfigXmlVersion = require('./sync-config-version');
 const syncBitbucketPipelineImageVersion = require('./sync-bitbucket-pipeline-image-version');
-const syncComposeImageVersion = require('./docker-compose-image-version').syncComposeImageVersion;
+const syncComposeImage = require('./docker-compose-image-version').syncComposeImage;
 const util = require('./script-utilities');
 
 function bump(versionBump) {
@@ -54,7 +54,7 @@ function syncVersionNumbers() {
 		copyDependencies(),
 		syncConfigXmlVersion(),
 		syncBitbucketPipelineImageVersion(),
-		syncComposeImageVersion(),
+		syncComposeImage(),
 	]);
 }
 

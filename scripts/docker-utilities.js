@@ -1,19 +1,13 @@
 const util = require('./script-utilities');
 
 function build() {
-	let repo = util.getDockerHubRepository();
-	let version = util.getCurrentVersion();
-	let repoTag = `${repo}:${version}`;
-
-	return util.spawnPromise('docker', ['build', '-t', repoTag, '.']);
+	let imageRepoTag = util.getCurrentDockerImage();
+	return util.spawnPromise('docker', ['build', '-f', './docker/dev.Dockerfile', '-t', imageRepoTag, '.']);
 }
 
 function push() {
-	let repo = util.getDockerHubRepository();
-	let version = util.getCurrentVersion();
-	let repoTag = `${repo}:${version}`;
-
-	return util.spawnPromise('docker', ['push', repoTag]);
+	let imageRepoTag = util.getCurrentDockerImage();
+	return util.spawnPromise('docker', ['push', imageRepoTag]);
 }
 
 module.exports = {

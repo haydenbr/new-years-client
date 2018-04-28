@@ -9,13 +9,12 @@ module.exports = () => {
 		.readFile(pipelinesFilepath)
 		.then(pipeline => util.convertYamlToJson(pipeline))
 		.then(pipelineObject => {
-			let oldImageName = pipelineObject.image.name || pipelineObject.image;
-			let newImageName = oldImageName.split(':')[0] + ':' + version;
+			let image = util.getCurrentDockerImage();
 
 			if (pipelineObject.image.name) {
-				pipelineObject.image.name = newImageName;
+				pipelineObject.image.name = image;
 			} else {
-				pipelineObject.image = newImageName;
+				pipelineObject.image = image;
 			}
 
 			return util.convertJsonToYaml(pipelineObject);

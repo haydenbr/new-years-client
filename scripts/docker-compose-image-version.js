@@ -1,24 +1,24 @@
 const path = require('path');
 const util = require('./script-utilities');
-const dockerComposePath = path.resolve(__dirname, '..', 'docker-compose.yml');
+const dockerComposePath = path.resolve(__dirname, '..', 'docker-compose.dev.yml');
 
 function setComposeLatestImage() {
-	const version = 'latest';
+	const image = `${util.getDockerHubRepository()}:latest`;
 
 	return getComposeData().then(dockerComposeConfig => {
-		dockerComposeConfig.services['new-years-dev'].image = getUpdatedImageTag(version);
-		dockerComposeConfig.services['new-years-dev'].build = '.';
-		return saveComposeData(dockerComposeConfig, version);
+		dockerComposeConfig.services['new-years-client'].image = image;
+		dockerComposeConfig.services['new-years-client'].build = '.';
+		return saveComposeData(dockerComposeConfig, image);
 	});
 }
 
-function syncComposeImageVersion() {
-	const version = util.getCurrentVersion();
+function syncComposeImage() {
+	const image = util.getCurrentDockerImage();
 
 	return getComposeData().then(dockerComposeConfig => {
-		dockerComposeConfig.services['new-years-dev'].image = getUpdatedImageTag(version);
-		delete dockerComposeConfig.services['new-years-dev'].build;
-		return saveComposeData(dockerComposeConfig, version);
+		dockerComposeConfig.services['new-years-client'].image = image;
+		delete dockerComposeConfig.services['new-years-client'].build;
+		return saveComposeData(dockerComposeConfig, image);
 	});
 }
 
@@ -26,18 +26,14 @@ function getComposeData() {
 	return util.readFile(dockerComposePath).then(dockerCompose => util.convertYamlToJson(dockerCompose));
 }
 
-function getUpdatedImageTag(version) {
-	return util.getDockerHubRepository() + ':' + version;
-}
-
-function saveComposeData(updatedComposeData, version) {
+function saveComposeData(updatedComposeData, image) {
 	let composeData = util.convertJsonToYaml(updatedComposeData);
 	return util
 		.writeFile(dockerComposePath, composeData)
-		.then(() => console.log(`updated docker compose image version to ${version}`));
+		.then(() => console.log(`updated docker compose image to ${image}`));
 }
 
 module.exports = {
 	setComposeLatestImage,
-	syncComposeImageVersion,
+	syncComposeImage,
 };

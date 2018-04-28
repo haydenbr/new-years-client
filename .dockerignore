@@ -1,14 +1,9 @@
 .git
 .gitignore
-*.json
 *.md
-*.xml
-docker-compose.yml
+docker-compose.*.yml
 node_modules
 platforms
 plugins
 resources
-scripts
-src
-webpack
 www

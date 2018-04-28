@@ -1,11 +1,8 @@
 const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
-
 const xml2js = require('xml2js');
 const yaml = require('js-yaml');
-
-// Just a few functions that are common to mutliple build scripts
 
 function bumpVersion(versionBump) {
 	let newVersion = getNextVersion(versionBump);
@@ -42,8 +39,8 @@ function getDockerHubRepository() {
 	return getPackageJson().dockerHubRepository;
 }
 
-function getCurrentDockerImageTag() {
-	return `${getDockerHubRepository()}:${getCurrentVersion()}`;
+function getCurrentDockerImage() {
+	return `${getDockerHubRepository()}:${getCurrentVersion()}-dev`;
 }
 
 function getNextVersion(versionBump) {
@@ -111,7 +108,7 @@ module.exports = {
 	convertYamlToJson,
 	execFile,
 	getCurrentVersion,
-	getCurrentDockerImageTag,
+	getCurrentDockerImage,
 	getDockerHubRepository,
 	getNextVersion,
 	getPackageJson,
