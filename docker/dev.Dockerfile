@@ -7,7 +7,11 @@ LABEL author="Hayden Braxton, haydenbraxton@haydenbr.com"
 # https://docs.docker.com/engine/reference/builder/#arg
 # https://docs.docker.com/engine/reference/builder/#env
 # 
-# TL;DR both are ENV variables. ARG can be overwritten at build time
+# TL;DR both are ENV variables
+# ARG is only available at build time
+# value of ENV take precedence over ARG
+# ENV is persisted
+# 
 ENV NODE_ENV=development
 
 # update system level tools I need
