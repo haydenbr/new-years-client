@@ -2,7 +2,7 @@ version: '3.6'
 services:
   new-years-client:
     container_name: new-years-client
-    image: 'haydenbr/new-years-client:3.0.0-dev'
+    image: 'haydenbr/new-years-client:3.0.1-dev'
     ports:
       - '8100:8100'
       - '35729:35729'

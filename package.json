@@ -1,7 +1,7 @@
 {
 	"name": "new-years-client",
 	"description": "Plan and keep track of your New Years Resolutions",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"private": false,
 	"license": "MIT",
 	"repository": "https://github.com/haydenbr/new-years-client",
