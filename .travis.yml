@@ -1,0 +1,19 @@
+sudo: required
+
+language: node_js
+node_js:
+  - 8.9.4
+
+git:
+  depth: 1
+
+services:
+  - docker
+
+install: skip
+
+script:
+  - 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+  - 'export VERSION=$(./scripts/current-version.js)'
+  - 'docker image build -f ./docker/prod.Dockerfile -t haydenbr/new-years-client:$VERSION .'
+  - 'docker image push haydenbr/new-years-client:$VERSION'

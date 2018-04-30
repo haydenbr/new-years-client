@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-console.log(require('./script-utilities').getCurrentVersion());
+console.log(require('../package.json').version);
