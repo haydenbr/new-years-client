@@ -8,8 +8,8 @@ services:
       - '35729:35729'
       - '53703:53703'
     environment:
-      - 'API_URL=http://new-years-api:3000'
-      - 'FUNCTIONS_URL=http://new-years-functions:3100/api'
+      - 'API_URL=http://localhost:3000'
+      - 'FUNCTIONS_URL=http://localhost:3100/api'
       - APP_ID
       - APP_URL_SCHEME
       - LOCAL_DEV
@@ -19,8 +19,6 @@ services:
       - PROD_MODE
     networks:
       - new-years-client
-      - new-years-api
-      - new-years-functions
     volumes:
       - './new-years-client/app.config.js:/opt/app/app.config.js'
       - './new-years-client/ionic.config.json:/opt/app/ionic.config.json'
@@ -32,5 +30,3 @@ services:
       - './new-years-client/scripts:/opt/app/scripts'
 networks:
   new-years-client: null
-  new-years-api: null
-  new-years-functions: null
