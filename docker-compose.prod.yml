@@ -1,0 +1,11 @@
+version: '3.6'
+services:
+  new-years-client:
+    container_name: new-years-client
+    image: 'haydenbr/new-years-client:3.0.1'
+    ports:
+      - '8080:80'
+    networks:
+      - new-years-client
+networks:
+  new-years-client: null
